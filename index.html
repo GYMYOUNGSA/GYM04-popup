@@ -533,8 +533,8 @@ function moveZone(zone) {
   setTimeout(function() {
     var el = document.getElementById(targetId);
     if (!el) return;
-    var stickyH = 56 + 95;
-    var top = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 8;
+    var stickyH = document.querySelector('.sticky-books-header') ? document.querySelector('.sticky-books-header').offsetHeight + 56 + 16 : 170;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - stickyH;
     window.scrollTo({top: top, behavior: 'smooth'});
   }, 150);
 }
@@ -544,7 +544,12 @@ document.querySelectorAll('.zone-pill').forEach(function(pill) {
   pill.addEventListener('click', function() {
     document.querySelectorAll('.zone-pill').forEach(function(p) { p.classList.remove('active'); });
     pill.classList.add('active');
-    document.getElementById(pill.getAttribute('data-target')).scrollIntoView({behavior:'smooth', block:'start'});
+    var targetEl = document.getElementById(pill.getAttribute('data-target'));
+    if (targetEl) {
+      var sh = document.querySelector('.sticky-books-header') ? document.querySelector('.sticky-books-header').offsetHeight + 56 + 16 : 170;
+      var tp = targetEl.getBoundingClientRect().top + window.pageYOffset - sh;
+      window.scrollTo({top: tp, behavior: 'smooth'});
+    }
   });
 });
 
